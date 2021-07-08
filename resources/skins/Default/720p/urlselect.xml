@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<window>
+	<defaultcontrol always="false">1003</defaultcontrol>
+	<menucontrol>0</menucontrol>
+	<backgroundcolor>0</backgroundcolor>
+	<animation effect="fade" time="200">WindowOpen</animation>
+	<animation effect="fade" time="200">WindowClose</animation>
+	<coordinates>
+		<left>0</left>
+		<top>0</top>
+	</coordinates>
+	<controls>
+		<control type="group" id="2000">
+			<control type="image" id="1000">
+				<left>0</left>
+				<top>0</top>
+				<width>450</width>
+				<texture border="5">rc-white-100.png</texture>
+				<bordertexture colordiffuse="black" border="5">rc-white-100.png</bordertexture>
+				<bordersize>5</bordersize>
+			</control>
+			<control type="button" id="1001">
+				<left>395</left>
+				<top>5</top>
+				<width>50</width>
+				<height>50</height>
+				<ondown>1003</ondown>
+				<onclick>Close</onclick>
+				<texturefocus colordiffuse="black">close.png</texturefocus>
+				<texturenofocus colordiffuse="gray">close.png</texturenofocus>
+			</control>
+			<control type="label" id="1002">
+				<left>10</left>
+				<top>10</top>
+				<height>50</height>
+				<width>390</width>
+				<textcolor>black</textcolor>
+				<font>font13</font>
+				<align>left</align>
+				<aliigny>center</aliigny>
+				<scroll>true</scroll>
+			</control>
+			<control type="list" id="1003">
+				<left>15</left>
+				<top>60</top>
+				<width>420</width>
+				<height></height>
+				<onup>1001</onup>
+				<orientation>vertical</orientation>
+				<!-- <pagecontrol>25</pagecontrol> -->
+				<scrolltime tween="sine" easing="out">200</scrolltime>
+				<itemlayout width="420" height="50">
+					<control type="image">
+						<left>0</left>
+						<top>0</top>
+						<texture colordiffuse="gray" border="5">rc-white-100.png</texture>
+					</control>
+					<control type="label">
+						<left>2</left>
+						<font>font13</font>
+						<textcolor>black</textcolor>
+						<label>$INFO[ListItem.Label]</label>
+						<aliigny>center</aliigny>
+						<align>left</align>
+					</control>
+				</itemlayout>
+				<focusedlayout width="420" height="50">
+					<control type="image">
+						<left>0</left>
+						<top>0</top>
+						<texture colordiffuse="black" border="5">rc-white-100.png</texture>
+					</control>
+					<control type="label">
+						<left>2</left>
+						<font>font13</font>
+						<textcolor>white</textcolor>
+						<label>$INFO[ListItem.Label]</label>
+						<aliigny>center</aliigny>
+						<align>left</align>
+					</control>
+				</focusedlayout>
+			</control>
+		</control>
+	</controls>
+</window>
