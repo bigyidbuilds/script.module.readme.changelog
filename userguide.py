@@ -17,7 +17,7 @@ from urllib.parse import quote,unquote
 from urllib.request import urlopen
 import webbrowser
 
-__addon__        = xbmcaddon.Addon('script.context.userguide')
+__addon__        = xbmcaddon.Addon('script.gui.userguide')
 __addonpath__    = xbmcvfs.translatePath(__addon__.getAddonInfo('path'))
 __addonprofile__ = xbmcvfs.translatePath(__addon__.getAddonInfo('profile'))
 
