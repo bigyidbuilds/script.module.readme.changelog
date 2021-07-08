@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<window>
+	<defaultcontrol always="true">1002</defaultcontrol>
+	<menucontrol>0</menucontrol>
+	<backgroundcolor>0</backgroundcolor>
+	<animation effect="fade" time="200">WindowOpen</animation>
+	<animation effect="fade" time="200">WindowClose</animation>
+	<coordinates>
+		<left>0</left>
+		<top>0</top>
+	</coordinates>
+	<controls>
+		<control type="image" id="1000">
+			<left>0</left>
+			<top>0</top>
+			<width>100%</width>
+			<height>100%</height>
+			<texture border="5">rc-white-100.png</texture>
+			<bordertexture colordiffuse="black" border="5">rc-white-100.png</bordertexture>
+			<bordersize>5</bordersize>
+		</control>
+		<control type="image" id="1001">
+			<aspectratio>keep</aspectratio>
+		</control>
+		<control type="button" id="1002">
+			<left>1215</left>
+			<top>15</top>
+			<width>50</width>
+			<height>50</height>
+			<onclick>Close</onclick>
+			<texturefocus colordiffuse="black">close.png</texturefocus>
+			<texturenofocus colordiffuse="gray">close.png</texturenofocus>
+		</control>
+	</controls>
+</window>
