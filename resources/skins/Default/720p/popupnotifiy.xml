@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<window>
+	<defaultcontrol always="false">1000</defaultcontrol>
+	<menucontrol>0</menucontrol>
+	<backgroundcolor>0</backgroundcolor>
+	<animation effect="slide" end="0,-400" time="200">WindowOpen</animation>
+	<animation effect="slide" end="0,0" time="200">WindowClose</animation>
+	<coordinates>
+		<left>415</left>
+		<top>730</top>
+	</coordinates>
+	<controls>
+		<control type="group">
+			<width>450</width>
+			<height>100</height>
+			<control type="image" id="1000">
+				<texture border="5">rc-white-100.png</texture>
+				<bordertexture colordiffuse="black" border="5">rc-white-100.png</bordertexture>
+				<bordersize>5</bordersize>
+			</control>
+			<control type="label" id="1001">
+				<left>10</left>
+				<top>10</top>
+				<height>80</height>
+				<width>430</width>
+				<textcolor>black</textcolor>
+				<font>font13</font>
+				<align>left</align>
+				<aliigny>center</aliigny>
+				<scroll>true</scroll>
+			</control>
+		</control>
+	</controls>
+</window>
