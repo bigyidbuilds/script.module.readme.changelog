@@ -680,7 +680,6 @@ if __name__ == '__main__':
 		file = sys.argv[1]  
 	else:
 		file = os.path.join(__addonpath__,'markdown-cheat-sheet.md')
-		# file = 'https://raw.githubusercontent.com/bigyidbuilds/script.context.userguide/main/README.md'
 	d=UserGuide('userguide.xml',__addonpath__,'Default','720p',mdfile=file)
 	d.doModal()
 	del d
