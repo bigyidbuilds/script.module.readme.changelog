@@ -5,9 +5,7 @@
 		<import addon="script.module.pil"/>
 		<import addon="script.module.requests"/>
 	</requires>
-	<extension point="xbmc.python.script" library="userguide.py">
-		<provides>executable</provides>
-	</extension>
+	<extension point="xbmc.python.script" library="userguide.py"/>
 	<extension point="xbmc.addon.metadata">
 		<summary lang="en">User Guide script to be called to view a user guide for a Addon</summary>
 		<description lang="en">User Guide script to be called that uses markdown syntax</description>
