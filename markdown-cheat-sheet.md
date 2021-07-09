@@ -11,11 +11,18 @@ These are the elements outlined in John Gruber’s original design document. All
 ### Heading
 
 # H1
+Uses font60
 ## H2
+Uses font45
 ### H3
+Uses font37
 #### H4
+Uses font14
 ##### H5
+Uses font13
 ###### H6
+Uses font12
+
 
 ### Bold
 
