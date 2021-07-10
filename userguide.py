@@ -29,7 +29,7 @@ newline = '\\n'
 
 
 
-fonts = {'h1':{'name':'font60','height':60,'width':60},'h2':{'name':'font45','height':45,'width':45},'h3':{'name':'font37','height':37,'width':37},'h4':{'name':'font14','height':33,'width':14},'h5':{'name':'font13','height':30,'width':13},'h6':{'name':'font12','height':25,'width':12}}
+fonts = {'h1':{'name':'font60','height':50,'width':60},'h2':{'name':'font45','height':30,'width':45},'h3':{'name':'font37','height':27,'width':37},'h4':{'name':'font14','height':23,'width':14},'h5':{'name':'font13','height':20,'width':13},'h6':{'name':'font12','height':17,'width':8}}
 
 ACTION_SELECT_ITEM = 7
 
@@ -104,7 +104,6 @@ class UserGuide(xbmcgui.WindowXMLDialog):
 					d=FullScreenImage(control[2])
 					d.doModal()
 					del d
-			# xbmc.log(str(control[0]),2)
 
 
 	def setControlVisible(self, controlId, visible):
@@ -218,24 +217,24 @@ class UserGuide(xbmcgui.WindowXMLDialog):
 				else:
 					break
 			elif guitype == 'bquote':
-				if startpoint_y+fontheight < self.maxheight:
-					control = xbmcgui.ControlImage(startpoint_x+10, startpoint_y, 5, fontheight,'rc-white-100.png', colorDiffuse='FF00FFFF')
+				if startpoint_y+fontheight+10 < self.maxheight:
+					control = xbmcgui.ControlImage(startpoint_x+10, startpoint_y-1, 5, fontheight+10,'rc-white-100.png', colorDiffuse='FF00FFFF')
 					ControlandItemsList.append(ControlAndItem(control,v))
-					control = xbmcgui.ControlLabel(startpoint_x+20,startpoint_y,self.maxwidth-20,fontheight,v.get('label'),v.get('font'),'FF000000')
+					control = xbmcgui.ControlLabel(startpoint_x+20,startpoint_y-1,self.maxwidth-20,fontheight+10,v.get('label'),v.get('font'),'FF000000',alignment=0x00000004)
 					ControlandItemsList.append(ControlAndItem(control,v))
-					startpoint_y = startpoint_y+fontheight
+					startpoint_y = startpoint_y+fontheight+10
 					self.content.pop(str(k))
 				else:
 					break
 			elif guitype == 'nest_bquote':
-				if startpoint_y+fontheight < self.maxheight:
-					control = xbmcgui.ControlImage(startpoint_x+10, startpoint_y, 5, fontheight,'rc-white-100.png', colorDiffuse='FF00FFFF')
+				if startpoint_y+fontheight+10 < self.maxheight:
+					control = xbmcgui.ControlImage(startpoint_x+10, startpoint_y-1, 5, fontheight+10,'rc-white-100.png', colorDiffuse='FF00FFFF')
 					ControlandItemsList.append(ControlAndItem(control,v))
-					control = xbmcgui.ControlImage(startpoint_x+20, startpoint_y, 5, fontheight,'rc-white-100.png', colorDiffuse='FF00FFFF')
+					control = xbmcgui.ControlImage(startpoint_x+20, startpoint_y-1, 5, fontheight+10,'rc-white-100.png', colorDiffuse='FF00FFFF')
 					ControlandItemsList.append(ControlAndItem(control,v))
-					control = xbmcgui.ControlLabel(startpoint_x+30,startpoint_y,self.maxwidth-30,fontheight,v.get('label'),v.get('font'),'FF000000')
+					control = xbmcgui.ControlLabel(startpoint_x+30,startpoint_y-1,self.maxwidth-30,fontheight+10,v.get('label'),v.get('font'),'FF000000',alignment=0x00000004)
 					ControlandItemsList.append(ControlAndItem(control,v))
-					startpoint_y = startpoint_y+fontheight
+					startpoint_y = startpoint_y+fontheight+10
 					self.content.pop(str(k))
 				else:
 					break
@@ -335,8 +334,10 @@ class UserGuide(xbmcgui.WindowXMLDialog):
 			rows = len(ls)
 			for l in ls:
 				form = (len(l)*fontdetails.get('width'))
+				xbmc.log(str(form),2)
 				if form > self.maxwidth:
 					rows += math.ceil(form/self.maxwidth)
+			rows = math.ceil(rows*1.5)
 			textheight = rows*fontdetails.get('height')
 		else:
 			form = (len(text)*fontdetails.get('width'))
@@ -365,7 +366,7 @@ class UserGuide(xbmcgui.WindowXMLDialog):
 			xbmc.log('mdfile is from url',2)
 			return [x.decode('utf-8') for x in  urlopen(self.mdfile).readlines()]
 		else:
-			with open(self.mdfile,'r') as f:
+			with open(self.mdfile,'r',encoding='utf-8') as f:
 				xbmc.log('mdfile is from local',2)
 				return f.readlines()
 
