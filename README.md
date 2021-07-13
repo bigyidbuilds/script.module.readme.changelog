@@ -23,8 +23,21 @@ using built in method `xbmc.executebuiltin('RunScript(script.gui.markdown.syntax
 
 Refer to the reference guides for [basic syntax](https://www.markdownguide.org/basic-syntax) and [extended syntax](https://www.markdownguide.org/extended-syntax) use.
 
-## Change Log
+### Change Log
 
-### Version 1.0.0
+#### Version 1.0.0
 
 Initial Release
+
+
+### Adding to your Repository
+
+Add this Directory to your own repository to get latest updates
+
+```xml
+	<dir>
+		<info compressed="false">https://raw.githubusercontent.com/bigyidbuilds/xbmc/main/packages/gui/addons.xml</info>
+		<checksum>https://raw.githubusercontent.com/bigyidbuilds/xbmc/main/packages/gui/addons.xml.md5</checksum>
+		<datadir zip="true">https://raw.githubusercontent.com/bigyidbuilds/xbmc/main/packages/gui/</datadir>
+	</dir>
+```
