@@ -17,14 +17,15 @@ from urllib.parse import quote,unquote
 from urllib.request import urlopen
 import webbrowser
 
-__addon__        = xbmcaddon.Addon('script.gui.userguide')
+__addon__        = xbmcaddon.Addon('script.gui.markdown.syntax.userguide')
 __addonpath__    = xbmcvfs.translatePath(__addon__.getAddonInfo('path'))
 __addonprofile__ = xbmcvfs.translatePath(__addon__.getAddonInfo('profile'))
 
 
 builtinMethod = 'RunScript(script.context.userguide,mdpath)'
 
-syntaxs   = ['#','*','_','>','\n','-','|','[',']','(',')','`','~',':','-']
+syntaxs   = ['#','_','>','\n','|','[',']','(',')',':','-']
+formatters = ['*','~','`']
 newline = '\\n'
 
 
@@ -46,7 +47,7 @@ class UserGuide(xbmcgui.WindowXMLDialog):
 		self.user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36'
 		self.headers = {"User-Agent":self.user_agent, "Connection":'keep-alive', 'Accept':'audio/webm,audio/ogg,udio/wav,audio/*;q=0.9,application/ogg;q=0.7,video/*;q=0.6,*/*;q=0.5'}
 		self.itemumber = 1
-		self.maxwidth = 1260
+		self.maxwidth = 1200
 		self.maxheight = 635
 		self.mdfile = kwargs.get('mdfile')
 		self.pagecount = 0
@@ -88,7 +89,7 @@ class UserGuide(xbmcgui.WindowXMLDialog):
 		elif controlId in visclick:
 			control = [x for x in self.onclick if x[0].getId() == controlId]
 			if control:
-				xbmc.log(str(control),2)
+				# xbmc.log(str(control),2)
 				control = control[0]
 				if control[1] == 'openurl':
 					urls = control[2]
@@ -263,7 +264,7 @@ class UserGuide(xbmcgui.WindowXMLDialog):
 					break
 			elif guitype == 'image':
 				imagepath = v.get('hyperlink')[0].get('link')
-				xbmc.log(imagepath,2)
+				# xbmc.log(imagepath,2)
 				img = self.OpenImage(imagepath)
 				img_w,img_h = self.ImageSize(img)
 				maximgw = 200
@@ -299,11 +300,11 @@ class UserGuide(xbmcgui.WindowXMLDialog):
 					else:
 						break
 		self.Pages.append(ControlandItemsList)
-		# try:
-		if len(self.content.keys())>0:
-			self.DrawPages(self.itemumber)
-		# except:
-		# 	return
+		try:
+			if len(self.content.keys())>0:
+				self.DrawPages(self.itemumber)
+		except:
+			return
 
 
 
@@ -334,7 +335,7 @@ class UserGuide(xbmcgui.WindowXMLDialog):
 			rows = len(ls)
 			for l in ls:
 				form = (len(l)*fontdetails.get('width'))
-				xbmc.log(str(form),2)
+				# xbmc.log(str(form),2)
 				if form > self.maxwidth:
 					rows += math.ceil(form/self.maxwidth)
 			rows = math.ceil(rows*1.5)
@@ -342,8 +343,8 @@ class UserGuide(xbmcgui.WindowXMLDialog):
 		else:
 			form = (len(text)*fontdetails.get('width'))
 			if form > self.maxwidth:
-				rows = math.ceil(form/self.maxwidth)
-				textheight = rows*fontdetails.get('height')
+				rows = math.ceil((form/self.maxwidth))
+				textheight = math.ceil(rows*(fontdetails.get('height')*1.5))
 			else:
 				textheight = fontdetails.get('height')*2
 		return textheight
@@ -460,44 +461,6 @@ class UserGuide(xbmcgui.WindowXMLDialog):
 						function = 'openurl'
 						text = self.TextBoxModifiy(replacements,line)
 					font = fonts.get(headersize).get('name')
-				elif '*' in line:
-					p=re.compile(r'(\*\*.*[a-z0-9]\*\*)')
-					m=p.search(line)
-					if m:
-						s = m.group()
-						cleans = s.strip('**')
-						label = s.replace(f'**{cleans}**',f'[B]{cleans}[/B]')
-					else:
-						p=re.compile(r'(\*.*[a-z0-9]\*)')
-						m=p.search(line)
-						if m:
-							s = m.group()
-							cleans = s.strip('*')
-							label = s.replace(f'*{cleans}*',f'[I]{cleans}[/I]')
-					text = label
-					_type = 'textbox'
-					headersize = 'h6'
-					font = fonts.get(headersize).get('name')
-				elif '`' in line:
-					p=re.compile(r'(`.+?`)').findall(line)
-					replacements = {}
-					for c in p:
-						clean = c.strip('`')
-						replacements.update({c:f'[COLOR FF00FFFF]{clean}[/COLOR]'})
-					_type = 'textbox'
-					headersize = 'h6'
-					font = fonts.get(headersize).get('name')
-					text = self.TextBoxModifiy(replacements,line)
-				elif '~~' in line:
-					replacements = {}
-					p=re.compile(r'(\~\~.+?\~\~)').findall(line)
-					for c in p:
-						s = c.strip('~~')
-						replacements.update({c:''.join([u'\u0336{}'.format(w) for w in s])})
-					_type = 'textbox'
-					headersize = 'h6'
-					font = fonts.get(headersize).get('name')
-					text = self.TextBoxModifiy(replacements,line)
 			elif re.match(r"^\d+.*\.",str(line)):
 				# ordered list
 				_type = 'label'
@@ -505,7 +468,7 @@ class UserGuide(xbmcgui.WindowXMLDialog):
 				text = label
 				headersize = 'h6'
 				font = fonts.get(headersize).get('name')
-			elif re.match(r'^\w',line):
+			elif len(line.strip())>0:
 				_type = 'textbox'
 				text = line
 				headersize = 'h6'
@@ -515,6 +478,35 @@ class UserGuide(xbmcgui.WindowXMLDialog):
 				_type = 'label'
 				headersize = 'h6'
 				font = fonts.get(headersize).get('name')
+			if label and any(s in formatters for s in label) or  text and any(s in formatters for s in text):
+				if label and text:
+					S = '|'.join([label,text])
+				elif label and not text:
+					S = label
+				elif text and not label:
+					S = text
+				replacements = {}
+				B=re.compile(r'(\*\*.*[a-z0-9]\*\*)').findall(S)
+				I=re.compile(r'(\*.*[a-z0-9]\*)').findall(S)
+				T=re.compile(r'(\~\~.+?\~\~)').findall(S)
+				C=re.compile(r'(`.+?`)').findall(S)
+				if B:
+					for s in B:
+						replacements.update({s:f"[B]{s.strip('**')}[/B]"})
+				if I:
+					for s in I:
+						replacements.update({s:f"[I]{s.strip('*')}[/I]"})
+				if T:
+					for s in T:
+						replacements.update({s:''.join([u'\u0336{}'.format(w) for w in s.strip('~~')])})
+				if C:
+					for s in C:
+						replacements.update({s:f"[COLOR FF00FFFF]{s.strip('`')}[/COLOR]"})
+				S = self.TextBoxModifiy(replacements,S)
+				if '|' in S:
+					label,text = S.split('|')
+				else:
+					label = text = S	
 			catitems.update({str(counter):{'type':_type,'label':label,'font':font,'orig_string':line,'hyperlink':hyperlink,'text':text,'headersize':headersize,'func':function}})
 		# xbmc.log(str(catitems),2)
 		return catitems
@@ -678,7 +670,8 @@ class DialogBusy():
 
 if __name__ == '__main__':
 	if len(sys.argv) >= 2:
-		file = sys.argv[1]  
+		file = sys.argv[1]
+		xbmc.log(file,2) 
 	else:
 		file = os.path.join(__addonpath__,'markdown-cheat-sheet.md')
 	d=UserGuide('userguide.xml',__addonpath__,'Default','720p',mdfile=file)
