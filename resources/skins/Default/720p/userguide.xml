@@ -46,7 +46,7 @@
 			<textcolor>black</textcolor>
 			<focusedcolor>white</focusedcolor>
 			<font>font13</font>
-			<label>Previous</label>
+			<label>$ADDON[script.module.readme.changelog 30005]</label>
 			<align>center</align>
 			<aliigny>center</aliigny>
 			<onright>1004</onright>
@@ -61,7 +61,7 @@
 			<textcolor>black</textcolor>
 			<focusedcolor>white</focusedcolor>
 			<font>font13</font>
-			<label>Next</label>
+			<label>$ADDON[script.module.readme.changelog 30006]</label>
 			<align>center</align>
 			<aliigny>center</aliigny>
 			<onleft>1003</onleft>

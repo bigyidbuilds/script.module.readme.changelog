@@ -17,7 +17,9 @@ from urllib.parse import quote,unquote
 from urllib.request import urlopen
 import webbrowser
 
-__addon__        = xbmcaddon.Addon('script.gui.markdown.syntax.userguide')
+from resources.lib.modules.utils import Log
+
+__addon__        = xbmcaddon.Addon('script.module.readme.changelog')
 __addonpath__    = xbmcvfs.translatePath(__addon__.getAddonInfo('path'))
 __addonprofile__ = xbmcvfs.translatePath(__addon__.getAddonInfo('profile'))
 
@@ -70,7 +72,7 @@ class UserGuide(xbmcgui.WindowXMLDialog):
 
 
 	def onClick(self,controlId):
-		xbmc.log(f'onClick:{str(controlId)}',2)
+		xbmc.log(f'onClick:{str(controlId)}',level=xbmc.LOGINFO)
 		visclick = []
 		for i in self.onclick:
 			cId = i[0].getId()
@@ -89,7 +91,7 @@ class UserGuide(xbmcgui.WindowXMLDialog):
 		elif controlId in visclick:
 			control = [x for x in self.onclick if x[0].getId() == controlId]
 			if control:
-				# xbmc.log(str(control),2)
+				# xbmc.log(str(control),level=xbmc.LOGINFO)
 				control = control[0]
 				if control[1] == 'openurl':
 					urls = control[2]
@@ -264,7 +266,7 @@ class UserGuide(xbmcgui.WindowXMLDialog):
 					break
 			elif guitype == 'image':
 				imagepath = v.get('hyperlink')[0].get('link')
-				# xbmc.log(imagepath,2)
+				# xbmc.log(imagepath,level=xbmc.LOGINFO)
 				img = self.OpenImage(imagepath)
 				img_w,img_h = self.ImageSize(img)
 				maximgw = 200
@@ -335,7 +337,7 @@ class UserGuide(xbmcgui.WindowXMLDialog):
 			rows = len(ls)
 			for l in ls:
 				form = (len(l)*fontdetails.get('width'))
-				# xbmc.log(str(form),2)
+				# xbmc.log(str(form),level=xbmc.LOGINFO)
 				if form > self.maxwidth:
 					rows += math.ceil(form/self.maxwidth)
 			rows = math.ceil(rows*1.5)
@@ -364,11 +366,11 @@ class UserGuide(xbmcgui.WindowXMLDialog):
 
 	def FileLines(self):
 		if self.mdfile.startswith('http'):
-			xbmc.log('mdfile is from url',2)
+			xbmc.log('mdfile is from url',level=xbmc.LOGINFO)
 			return [x.decode('utf-8') for x in  urlopen(self.mdfile).readlines()]
 		else:
 			with open(self.mdfile,'r',encoding='utf-8') as f:
-				xbmc.log('mdfile is from local',2)
+				xbmc.log('mdfile is from local',level=xbmc.LOGINFO)
 				return f.readlines()
 
 	def ImageSize(self,image):
@@ -385,7 +387,10 @@ class UserGuide(xbmcgui.WindowXMLDialog):
 	def TextBoxModifiy(self,replacements,text):
 		rep = dict((quote(k), v) for k, v in replacements.items()) 
 		pattern = re.compile("|".join(rep.keys()))
-		text = pattern.sub(lambda m: rep[m.group(0)], quote(text))
+		try:
+			text = pattern.sub(lambda m: rep[m.group(0)], quote(text))
+		except KeyError:
+			text = text
 		return unquote(text)
 
 
@@ -508,7 +513,7 @@ class UserGuide(xbmcgui.WindowXMLDialog):
 				else:
 					label = text = S	
 			catitems.update({str(counter):{'type':_type,'label':label,'font':font,'orig_string':line,'hyperlink':hyperlink,'text':text,'headersize':headersize,'func':function}})
-		# xbmc.log(str(catitems),2)
+		# xbmc.log(str(catitems),level=xbmc.LOGINFO)
 		return catitems
 
 
@@ -668,12 +673,12 @@ class DialogBusy():
 			xbmc.executebuiltin('Dialog.Close(busydialognocancel)')
 			DialogBusy.Visible = False
 
-if __name__ == '__main__':
-	if len(sys.argv) >= 2:
-		file = sys.argv[1]
-		xbmc.log(file,2) 
-	else:
-		file = os.path.join(__addonpath__,'markdown-cheat-sheet.md')
-	d=UserGuide('userguide.xml',__addonpath__,'Default','720p',mdfile=file)
-	d.doModal()
-	del d
+# if __name__ == '__main__':
+# 	if len(sys.argv) >= 2:
+# 		file = sys.argv[1]
+# 		xbmc.log(file,level=xbmc.LOGINFO) 
+# 	else:
+# 		file = os.path.join(__addonpath__,'markdown-cheat-sheet.md')
+# 	d=UserGuide('userguide.xml',__addonpath__,'Default','720p',mdfile=file)
+# 	d.doModal()
+# 	del d

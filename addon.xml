@@ -1,21 +1,34 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="script.gui.markdown.syntax.userguide" name="markdown syntax User Guide" version="1.0.0" provider-name="BYB">
+<addon id="script.module.readme.changelog" name="ReadMe ChangeLog" version="1.0.0" provider-name="BYB">
 	<requires>
 		<import addon="xbmc.python" version="3.0.0"/>
 		<import addon="script.module.pil"/>
 		<import addon="script.module.requests"/>
 	</requires>
-	<extension point="xbmc.python.script" library="userguide.py"/>
+	<extension point="xbmc.python.script" library="addon.py"/>
+	<extension point="xbmc.service" library="service.py" />
+	<extension point="kodi.context.item">
+		<menu id="kodi.core.main">
+			<item library="context.py" args="readme">
+				<label>$ADDON[script.module.readme.changelog 30000]</label>
+				<visible>String.Contains(Window(10000).Property(READMELIST),ListItem.Property(Addon.ID))</visible>
+			</item>
+			<item library="context.py" args="changelog">
+				<label>$ADDON[script.module.readme.changelog 30001]</label>
+				<visible>String.Contains(Window(10000).Property(CHANGELOGLIST),ListItem.Property(Addon.ID))</visible>
+			</item>
+		</menu>
+	</extension>
 	<extension point="xbmc.addon.metadata">
 		<summary lang="en">User Guide script to be called to view a user guide for a Addon</summary>
-		<description lang="en">User Guide script to be called that uses markdown syntax</description>
+		<description lang="en">User Guide or ReadMe script to be called that uses markdown syntax</description>
 		<platform>all</platform>
 		<language>en</language>
 		<license>Apache License</license>
 		<forum></forum>
-		<website>https://github.com/bigyidbuilds/script.gui.markdown.syntax.userguide/blob/main/README.md</website> 
+		<website>https://github.com/bigyidbuilds/script.module.readme.changelog/blob/main/README.md</website> 
 		<email></email>
-		<source>https://github.com/bigyidbuilds/script.gui.markdown.syntax.userguide</source>
+		<source>https://github.com/bigyidbuilds/script.module.readme.changelog</source>
 		<news>v0.0.1
 		</news>
 		<assets>
