@@ -22,6 +22,7 @@ from resources.lib.modules.utils import Log
 __addon__        = xbmcaddon.Addon('script.module.readme.changelog')
 __addonpath__    = xbmcvfs.translatePath(__addon__.getAddonInfo('path'))
 __addonprofile__ = xbmcvfs.translatePath(__addon__.getAddonInfo('profile'))
+__addonsettings__ = __addon__.getSettings()
 
 
 builtinMethod = 'RunScript(script.context.userguide,mdpath)'
@@ -57,6 +58,7 @@ class UserGuide(xbmcgui.WindowXMLDialog):
 		self.onclick = []
 		self.content = self.ParseMarkdown(self.FileLines())
 		self.lastitem = len(self.content.keys())
+		# Log(self.content)
 		
 
 
@@ -182,6 +184,7 @@ class UserGuide(xbmcgui.WindowXMLDialog):
 		startpoint_x = 10
 		startpoint_y = 20
 		for k,v in list(self.content.items()):
+			Log(f'{k} {v}')
 			k = int(k)
 			self.itemumber = k
 			guitype = v.get('type')
@@ -189,7 +192,7 @@ class UserGuide(xbmcgui.WindowXMLDialog):
 			fontwidth = fonts.get(v.get('headersize')).get('width')
 			if guitype == 'label':
 				if startpoint_y+fontheight < self.maxheight:
-					control = xbmcgui.ControlLabel(startpoint_x,startpoint_y,self.maxwidth,fontheight,v.get('label'),v.get('font'),'FF000000')
+					control = xbmcgui.ControlLabel(startpoint_x,startpoint_y,self.maxwidth,fontheight,v.get('label'),v.get('font'),__addonsettings__.getString('readme.label'))
 					ControlandItemsList.append(ControlAndItem(control,v))
 					startpoint_y = startpoint_y+fontheight
 					self.content.pop(str(k))
@@ -200,7 +203,7 @@ class UserGuide(xbmcgui.WindowXMLDialog):
 				text = v.get('text',v.get('label'))
 				blockheight = self.TextBlockSize(text,font)
 				if startpoint_y+blockheight < self.maxheight:
-					control = xbmcgui.ControlTextBox(startpoint_x, startpoint_y, self.maxwidth, blockheight, font, 'FF000000')
+					control = xbmcgui.ControlTextBox(startpoint_x, startpoint_y, self.maxwidth, blockheight, font,__addonsettings__.getString('readme.text'))
 					control.setText(text)
 					ControlandItemsList.append(ControlAndItem(control,v))
 					startpoint_y = startpoint_y+blockheight
@@ -211,9 +214,15 @@ class UserGuide(xbmcgui.WindowXMLDialog):
 				font = v.get('font')
 				text = v.get('text',v.get('label'))
 				text = self.insertNewLine(text,font)
+				if v.get('func') == 'openurl':
+					textColor = __addonsettings__.getString('readme.hyperlink.nofocus')
+					focusedColor = __addonsettings__.getString('readme.hyperlink.focus')
+				else:
+					textColor = 'FF000000'
+					focusedColor = 'FF00FFFF'
 				blockheight = self.TextBlockSize(text,font)
 				if startpoint_y+blockheight < self.maxheight:
-					control = xbmcgui.ControlButton(startpoint_x, startpoint_y,self.maxwidth, blockheight, text,'invisible.png','invisible.png',font=v.get('font'), textColor='FF000000', focusedColor='FF00FFFF')
+					control = xbmcgui.ControlButton(startpoint_x, startpoint_y,self.maxwidth, blockheight, text,'invisible.png','invisible.png',font=v.get('font'), textColor=textColor, focusedColor=focusedColor)
 					ControlandItemsList.append(ControlAndItem(control,v))
 					startpoint_y = startpoint_y+blockheight
 					self.content.pop(str(k))
@@ -221,7 +230,7 @@ class UserGuide(xbmcgui.WindowXMLDialog):
 					break
 			elif guitype == 'bquote':
 				if startpoint_y+fontheight+10 < self.maxheight:
-					control = xbmcgui.ControlImage(startpoint_x+10, startpoint_y-1, 5, fontheight+10,'rc-white-100.png', colorDiffuse='FF00FFFF')
+					control = xbmcgui.ControlImage(startpoint_x+10, startpoint_y-1, 5, fontheight+10,'rc-white-100.png', colorDiffuse=__addonsettings__.getString('readme.blockquote'))
 					ControlandItemsList.append(ControlAndItem(control,v))
 					control = xbmcgui.ControlLabel(startpoint_x+20,startpoint_y-1,self.maxwidth-20,fontheight+10,v.get('label'),v.get('font'),'FF000000',alignment=0x00000004)
 					ControlandItemsList.append(ControlAndItem(control,v))
@@ -231,9 +240,9 @@ class UserGuide(xbmcgui.WindowXMLDialog):
 					break
 			elif guitype == 'nest_bquote':
 				if startpoint_y+fontheight+10 < self.maxheight:
-					control = xbmcgui.ControlImage(startpoint_x+10, startpoint_y-1, 5, fontheight+10,'rc-white-100.png', colorDiffuse='FF00FFFF')
+					control = xbmcgui.ControlImage(startpoint_x+10, startpoint_y-1, 5, fontheight+10,'rc-white-100.png', colorDiffuse=__addonsettings__.getString('readme.blockquote'))
 					ControlandItemsList.append(ControlAndItem(control,v))
-					control = xbmcgui.ControlImage(startpoint_x+20, startpoint_y-1, 5, fontheight+10,'rc-white-100.png', colorDiffuse='FF00FFFF')
+					control = xbmcgui.ControlImage(startpoint_x+20, startpoint_y-1, 5, fontheight+10,'rc-white-100.png', colorDiffuse=__addonsettings__.getString('readme.nestedblockquote'))
 					ControlandItemsList.append(ControlAndItem(control,v))
 					control = xbmcgui.ControlLabel(startpoint_x+30,startpoint_y-1,self.maxwidth-30,fontheight+10,v.get('label'),v.get('font'),'FF000000',alignment=0x00000004)
 					ControlandItemsList.append(ControlAndItem(control,v))
@@ -266,7 +275,6 @@ class UserGuide(xbmcgui.WindowXMLDialog):
 					break
 			elif guitype == 'image':
 				imagepath = v.get('hyperlink')[0].get('link')
-				# xbmc.log(imagepath,level=xbmc.LOGINFO)
 				img = self.OpenImage(imagepath)
 				img_w,img_h = self.ImageSize(img)
 				maximgw = 200
@@ -295,7 +303,7 @@ class UserGuide(xbmcgui.WindowXMLDialog):
 						control = xbmcgui.ControlImage(startpoint_x,startpoint_y, img_w, img_h, imagepath,2)
 						ControlandItemsList.append(ControlAndItem(control,v))
 						startpoint_y = startpoint_y+img_h
-						control = xbmcgui.ControlButton(startpoint_x, startpoint_y,self.maxwidth, fontheight,f"{v.get('label')}([I]Click to enlarge image[/I])",'invisible.png','invisible.png',font=v.get('font'), textColor='FF000000', focusedColor='FF00FFFF')
+						control = xbmcgui.ControlButton(startpoint_x, startpoint_y,self.maxwidth, fontheight,f"{v.get('label')}([I]Click to enlarge image[/I])",'invisible.png','invisible.png',font=v.get('font'), textColor=__addonsettings__.getString('readme.img.nofocus'), focusedColor=__addonsettings__.getString('readme.img.focus'))
 						ControlandItemsList.append(ControlAndItem(control,v))
 						startpoint_y=startpoint_y+fontheight
 						self.content.pop(str(k))
@@ -337,7 +345,6 @@ class UserGuide(xbmcgui.WindowXMLDialog):
 			rows = len(ls)
 			for l in ls:
 				form = (len(l)*fontdetails.get('width'))
-				# xbmc.log(str(form),level=xbmc.LOGINFO)
 				if form > self.maxwidth:
 					rows += math.ceil(form/self.maxwidth)
 			rows = math.ceil(rows*1.5)
@@ -366,11 +373,11 @@ class UserGuide(xbmcgui.WindowXMLDialog):
 
 	def FileLines(self):
 		if self.mdfile.startswith('http'):
-			xbmc.log('mdfile is from url',level=xbmc.LOGINFO)
+			Log('mdfile is from url')
 			return [x.decode('utf-8') for x in  urlopen(self.mdfile).readlines()]
 		else:
 			with open(self.mdfile,'r',encoding='utf-8') as f:
-				xbmc.log('mdfile is from local',level=xbmc.LOGINFO)
+				Log('mdfile is from local')
 				return f.readlines()
 
 	def ImageSize(self,image):
@@ -389,7 +396,8 @@ class UserGuide(xbmcgui.WindowXMLDialog):
 		pattern = re.compile("|".join(rep.keys()))
 		try:
 			text = pattern.sub(lambda m: rep[m.group(0)], quote(text))
-		except KeyError:
+		except KeyError as ke:
+			Log(ke)
 			text = text
 		return unquote(text)
 
@@ -397,11 +405,17 @@ class UserGuide(xbmcgui.WindowXMLDialog):
 	def ParseMarkdown(self,filelines):
 		catitems = {}
 		counter = 0
-		code = zip(*[iter([i for i, e in enumerate(filelines) if '```' in e])]*2)
+		code = []
+		excess = []
+		for i,e in enumerate(filelines):
+			if '```' in e:
+				code.append(i)
+		code = zip(*[iter(code)]*2)
 		for start,stop in code:
 			newitem = ''.join(filelines[start:stop+1])
-			del filelines[start:stop+1]
-			filelines.insert(start,newitem)
+			for i in range(start,stop+1):
+				filelines[i] = '\n'
+			filelines[start] = newitem
 		table = groupby([i for i,e in enumerate(filelines) if e.startswith('|')], lambda n, c=count(): n-next(c))
 		for _,t in table:
 			x = list(t)
@@ -409,17 +423,29 @@ class UserGuide(xbmcgui.WindowXMLDialog):
 			newitem = ''.join(filelines[start:stop+1])
 			del filelines[start:stop+1]
 			filelines.insert(start,newitem)
+		for idx,line in enumerate(filelines):
+			#get postion of excessive new line
+			if idx >= 1:
+				if (filelines[idx-1] ==  line == '\n') or (filelines[idx-1][-2:] == line == '\n'):
+					excess.append(idx)
+		filelines = [v for i, v in enumerate(filelines) if i not in excess]
 		for line in filelines:
 			_type = None;label=None;font=None;hyperlink=None;text=None;function=None
 			counter += 1
 			line = line.strip()
 			if any( s in syntaxs for s in line):
+				Log(line)
 				if line.startswith('#'):
+					Log(line)
 					header,label = re.compile(r'^(#.*?)\s(.+?$)').findall(line)[0]
 					headersize = f'h{len(header)}'
-					font = fonts.get(headersize).get('name')
+					try:
+						font = fonts.get(headersize).get('name')
+					except:
+						font = 'h6'
 					_type = 'label'
 				elif line.startswith('>'):
+					Log(line)
 					bquote,label = re.compile(r'^(.*?)\s(.+?$)').findall(line)[0]
 					if len(bquote)==2:
 						_type = 'nest_bquote'
@@ -429,27 +455,53 @@ class UserGuide(xbmcgui.WindowXMLDialog):
 					font = fonts.get(headersize).get('name')
 					text = label
 				elif line.startswith('|'):
+					Log(line)
 					_type = 'table'
 					headersize = 'h6'
 					font = fonts.get(headersize).get('name')
 					label = text = line
 				elif line.startswith('```'):
+					Log(line)
+					# Code block
 					_type = 'textbox'
-					label = line.strip('```\n')
 					headersize = 'h6'
 					font = fonts.get(headersize).get('name')
-					text = label
+					# text = label
+					text = line
 				elif line.startswith('-'):
+					Log(line)
 					_type = 'label'
 					headersize = 'h6'
 					label = line
 					font = fonts.get(headersize).get('name')
 				elif line.startswith(':'):
+					Log(line)
 					_type = 'textbox'
 					text = line.lstrip(':')
 					headersize = 'h6'
 					font = fonts.get(headersize).get('name')
+				# elif not line.startswith(':') and ':' in line:
+				# 	Log(line)
+				# 	_type = 'textbox'
+				# 	text = line
+				# 	headersize = 'h6'
+				# 	font = fonts.get(headersize).get('name')
+				elif line.startswith('`') and line.endswith('`'):
+					Log(line)
+					#single code line and contains syntaxs in code
+					_type = 'textbox'
+					headersize = 'h6'
+					font = fonts.get(headersize).get('name')
+					text = line
+				elif line.count('`') == 2:
+					Log(line)
+					#single code line in a text string and contains syntaxs in code
+					_type = 'textbox'
+					headersize = 'h6'
+					font = fonts.get(headersize).get('name')
+					text = line
 				elif all(x in line for x in ['[',']','(',')']):
+					Log(line)
 					replacements = {}
 					rec = re.compile(r'\[(.*?)\]\((.*?)\)')
 					matches = rec.findall(line)
@@ -466,6 +518,12 @@ class UserGuide(xbmcgui.WindowXMLDialog):
 						function = 'openurl'
 						text = self.TextBoxModifiy(replacements,line)
 					font = fonts.get(headersize).get('name')
+				else:
+					Log(line)
+					_type = 'textbox'
+					headersize = 'h6'
+					font = fonts.get(headersize).get('name')
+					text = line
 			elif re.match(r"^\d+.*\.",str(line)):
 				# ordered list
 				_type = 'label'
@@ -491,10 +549,11 @@ class UserGuide(xbmcgui.WindowXMLDialog):
 				elif text and not label:
 					S = text
 				replacements = {}
-				B=re.compile(r'(\*\*.*[a-z0-9]\*\*)').findall(S)
-				I=re.compile(r'(\*.*[a-z0-9]\*)').findall(S)
+				B=re.compile(r'\*\*[a-zA-Z0-9\s]*\*\*').findall(S)
+				I=re.compile(r'\*(?!\*|\s)[a-zA-Z0-9\s]*\*(?!\*)').findall(S)
 				T=re.compile(r'(\~\~.+?\~\~)').findall(S)
-				C=re.compile(r'(`.+?`)').findall(S)
+				C=re.compile(r'`(?!`)(?!`).+?`(?!`)(?!`)').findall(S)
+				CB=re.compile(r'```.+?```',flags=re.DOTALL).findall(S)
 				if B:
 					for s in B:
 						replacements.update({s:f"[B]{s.strip('**')}[/B]"})
@@ -506,14 +565,19 @@ class UserGuide(xbmcgui.WindowXMLDialog):
 						replacements.update({s:''.join([u'\u0336{}'.format(w) for w in s.strip('~~')])})
 				if C:
 					for s in C:
-						replacements.update({s:f"[COLOR FF00FFFF]{s.strip('`')}[/COLOR]"})
+						replacements.update({s:f"[COLOR {__addonsettings__.getString('readme.code')}]{s.strip('`')}[/COLOR]"})
+				if CB:
+					for s in CB:
+						sclean = s.strip('`\n')
+						replacements.update({s:f"[COLOR {__addonsettings__.getString('readme.codeblock')}]{sclean}[/COLOR]"})
+				Log(replacements)
 				S = self.TextBoxModifiy(replacements,S)
 				if '|' in S:
 					label,text = S.split('|')
 				else:
 					label = text = S	
 			catitems.update({str(counter):{'type':_type,'label':label,'font':font,'orig_string':line,'hyperlink':hyperlink,'text':text,'headersize':headersize,'func':function}})
-		# xbmc.log(str(catitems),level=xbmc.LOGINFO)
+		Log(catitems)
 		return catitems
 
 

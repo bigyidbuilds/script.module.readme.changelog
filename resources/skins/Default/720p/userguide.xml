@@ -48,7 +48,7 @@
 			<font>font13</font>
 			<label>$ADDON[script.module.readme.changelog 30005]</label>
 			<align>center</align>
-			<aliigny>center</aliigny>
+			<aligny>center</aligny>
 			<onright>1004</onright>
 		</control>
 		<control type="button" id="1004">
@@ -63,7 +63,7 @@
 			<font>font13</font>
 			<label>$ADDON[script.module.readme.changelog 30006]</label>
 			<align>center</align>
-			<aliigny>center</aliigny>
+			<aligny>center</aligny>
 			<onleft>1003</onleft>
 		</control>
 		<control type="label" id="1005">
@@ -73,7 +73,7 @@
 			<height>50</height>
 			<textcolor>black</textcolor>
 			<font>font13</font>
-			<aliigny>center</aliigny>
+			<aligny>center</aligny>
 			<align>right</align>
 		</control>
 	</controls>

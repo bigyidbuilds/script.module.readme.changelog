@@ -20,81 +20,46 @@ msgstr ""
 
 msgctxt "#30000"
 msgid "ReadMe"
-msgstr ""
+msgstr "ReadMe"
 
 msgctxt "#30001"
 msgid "ChangeLog"
-msgstr ""
+msgstr "ChangeLog"
 
 
 msgctxt "#30002"
 msgid "General"
-msgstr ""
+msgstr "General"
 
 msgctxt "#30003"
 msgid "Debug"
-msgstr ""
+msgstr "Debug"
 
 msgctxt "#30004"
 msgid "Event logging"
-msgstr ""
+msgstr "Event logging"
 
 msgctxt "#30005"
 msgid "Previous"
-msgstr ""
+msgstr "Previous"
 
 msgctxt "#30006"
 msgid "Next"
-msgstr ""
+msgstr "Next"
 
 msgctxt "#30007"
 msgid "Select Demo item to view"
-msgstr ""
+msgstr "Select Demo item to view"
 
 msgctxt "#30008"
 msgid "Colour identifier"
-msgstr ""
+msgstr "Color identifier"
 
-msgctxt "#30009"
-msgid "Hyperlink button focus"
-msgstr ""
-
-msgctxt "#30010"
-msgid "Code"
-msgstr ""
-
-msgctxt "#30011"
-msgid "Code block"
-msgstr ""
-
-msgctxt "#30012"
-msgid "List separator"
-msgstr ""
-
-msgctxt "#30013"
-msgid "Hyperlink button no focus"
-msgstr ""
-
-msgctxt "#30014"
-msgid "Enlarge image button focus"
-msgstr ""
-
-msgctxt "#30015"
-msgid "Enlarge image button no focus"
-msgstr ""
-
-msgctxt "#30016"
-msgid "Label"
-msgstr ""
-
-msgctxt "#30017"
-msgid "Text"
-msgstr ""
 
 msgctxt "#30018"
 msgid "Blockquote colour"
-msgstr ""
+msgstr "Blockquote color"
 
 msgctxt "#30019"
 msgid "Nested blockquote colour"
-msgstr ""
+msgstr "Nested blockquote color"

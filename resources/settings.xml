@@ -10,5 +10,60 @@
 				</setting>
 			</group>
 		</category>
+		<category id="readme" label="30000">
+			<group id="2" label="30008">
+				<setting id="readme.hyperlink.focus" type="string" label="30009">
+					<level>0</level>
+					<default>FF1F75FE</default>
+					<control type="colorbutton" />
+				</setting>
+				<setting id="readme.hyperlink.nofocus" type="string" label="30013">
+					<level>0</level>
+					<default>FF7851A9</default>
+					<control type="colorbutton" />
+				</setting>
+				<setting id="readme.code" type="string" label="30010">
+					<level>0</level>
+					<default>FFE74F00</default>
+					<control type="colorbutton" />
+				</setting>
+				<setting id="readme.codeblock" type="string" label="30011">
+					<level>0</level>
+					<default>FFFF2B2B</default>
+					<control type="colorbutton" />
+				</setting>
+				<setting id="readme.img.focus" type="string" label="30014">
+					<level>0</level>
+					<default>FFCEFF1D</default>
+					<control type="colorbutton" />
+				</setting>
+				<setting id="readme.img.nofocus" type="string" label="30015">
+					<level>0</level>
+					<default>FFB2EC5D</default>
+					<control type="colorbutton" />
+				</setting>
+				<setting id="readme.label" type="string" label="30016">
+					<level>0</level>
+					<default>FF000000</default>
+					<control type="colorbutton" />
+				</setting>
+				<setting id="readme.text" type="string" label="30017">
+					<level>0</level>
+					<default>FF212121</default>
+					<control type="colorbutton" />
+				</setting>
+				<setting id="readme.blockquote" type="string" label="30018">
+					<level>0</level>
+					<default>FF3BB08F</default>
+					<control type="colorbutton" />
+				</setting>
+				<setting id="readme.nestedblockquote" type="string" label="30019">
+					<level>0</level>
+					<default>FF1CD3A2</default>
+					<control type="colorbutton" />
+				</setting>
+			</group>
+		</category>
 	</section>
 </settings>
+
