@@ -47,15 +47,3 @@ using built in method `xbmc.executebuiltin('RunScript(script.module.readme.chang
 
 Initial Release
 
-
-### Adding to your Repository
-
-Add this Directory to your own repository to get latest updates
-
-```xml
-<dir>
-	<info compressed="false">https://raw.githubusercontent.com/bigyidbuilds/xbmc/main/packages/gui/addons.xml</info>
-	<checksum>https://raw.githubusercontent.com/bigyidbuilds/xbmc/main/packages/gui/addons.xml.md5</checksum>
-	<datadir zip="true">https://raw.githubusercontent.com/bigyidbuilds/xbmc/main/packages/gui/</datadir>
-</dir>
-```

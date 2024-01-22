@@ -67,9 +67,9 @@
 			<onleft>1003</onleft>
 		</control>
 		<control type="label" id="1005">
-			<left>1160</left>
+			<left>1060</left>
 			<top>655</top>
-			<width>100</width>
+			<width>200</width>
 			<height>50</height>
 			<textcolor>black</textcolor>
 			<font>font13</font>
