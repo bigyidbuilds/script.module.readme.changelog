@@ -21,7 +21,9 @@
 	</extension>
 	<extension point="xbmc.addon.metadata">
 		<summary lang="en">User Guide script to be called to view a user guide for a Addon</summary>
-		<description lang="en">User Guide or ReadMe script to be called that uses markdown syntax</description>
+		<description lang="en">Adds additional items to context menu for addons if addon has a readme.md file or a changelog.txt and makes visible with gui,\n
+		Can call a readme.md file or a changelog.txt file via built in methods
+		For more information see readme files of addon</description>
 		<platform>all</platform>
 		<language>en</language>
 		<license>Apache License</license>
