@@ -20,10 +20,10 @@
 		</menu>
 	</extension>
 	<extension point="xbmc.addon.metadata">
-		<summary lang="en">User Guide script to be called to view a user guide for a Addon</summary>
+		<summary lang="en">Script adding items to context menu if addon has readme or changelog can be used as stand alone to call</summary>
 		<description lang="en">Adds additional items to context menu for addons if addon has a readme.md file or a changelog.txt and makes visible with gui,\n
 		Can call a readme.md file or a changelog.txt file via built in methods
-		For more information see readme files of addon</description>
+		For more information see readme files of addon for examples and instruction</description>
 		<platform>all</platform>
 		<language>en</language>
 		<license>Apache License</license>
