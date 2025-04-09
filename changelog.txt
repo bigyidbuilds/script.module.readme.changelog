@@ -1,2 +1,4 @@
+1.0.1
+Fix to stop changelog ReadMe been visiable in context menu if not a addon that has focus
 1.0.0
 Initial release
